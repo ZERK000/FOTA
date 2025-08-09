@@ -1,6 +1,7 @@
 # STM32 OTA Firmware Update System with TFT Menu
 
 📌 Overview
+-----------------------------------------------------------------------------------------------------------------------------
 This project implements a Firmware Over-The-Air (OTA) update system for an STM32 microcontroller, combined with a graphical TFT menu interface for running various applications.
 
 It allows uploading new firmware via a web interface, transmitting it wirelessly through an ESP Wi-Fi module, and finally programming it onto the STM32.
@@ -12,8 +13,9 @@ Digital counter (count up/down)
 LED matrix shape display
 
 Buzzer control
------------------------------------------------------------------------------------------------------------------------------
+
 🚀 System Workflow
+-----------------------------------------------------------------------------------------------------------------------------
 Web Interface
 
 Built using HTML & JSON.
@@ -45,8 +47,10 @@ Receives firmware lines via UART.
 (Planned) Bootloader will take parsed firmware bytes and program them into Flash memory.
 
 Runs the TFT menu system for application selection.
------------------------------------------------------------------------------------------------------------------------------
+
 🖥️ TFT Menu Features
+-----------------------------------------------------------------------------------------------------------------------------
+
 The STM32 firmware includes a menu-driven interface allowing the user to:
 
 Select “Application” mode to run different apps.
@@ -64,6 +68,8 @@ LED Matrix App – display various shapes.
 Buzzer App – turn buzzer on/off.
 
 🔧 Hardware Used
+-----------------------------------------------------------------------------------------------------------------------------
+
 STM32F4 Series MCU
 
 ESP Wi-Fi Module
