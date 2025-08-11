@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FOTA Update Trigger</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a0ca3;
+      --secondary: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                  url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1200&q=80') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--light);
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      width: 400px;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    h2 {
+      color: white;
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 28px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .login-form {
+      display: block;
+    }
+    
+    .update-section {
+      display: none;
+    }
+    
+    .input-group {
+      position: relative;
+      margin: 20px 0;
+    }
+    
+    input {
+      width: 100%;
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      font-size: 16px;
+      color: white;
+      transition: all 0.3s;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.3);
+    }
+    
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      margin-top: 20px;
+      width: 100%;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px rgba(67, 97, 238, 0.3);
+    }
+    
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(67, 97, 238, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .logout-btn {
+      background: rgba(255, 255, 255, 0.1);
+      margin-top: 15px;
+    }
+    
+    .logout-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    .message {
+      margin: 15px 0;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 5px;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .error {
+      background: rgba(231, 76, 60, 0.2);
+      border-left: 4px solid #e74c3c;
+    }
+    
+    .success {
+      background: rgba(39, 174, 96, 0.2);
+      border-left: 4px solid #27ae60;
+    }
+    
+    .logo {
+      width: 80px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(67, 97, 238, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(67, 97, 238, 0); }
+    }
+    
+    .update-info {
+      margin: 20px 0;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="login-form" id="loginForm">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+      </svg>
+      <h2>FOTA Dashboard</h2>
+      <div class="input-group">
+        <input type="text" id="username" placeholder="Username" required>
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required>
+      </div>
+      <button onclick="login()" class="pulse">Login</button>
+      <div id="loginMessage" class="message"></div>
+    </div>
+
+    <div class="update-section" id="updateSection">
+      <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+        <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+      </svg>
+      <h2>Firmware Update</h2>
+      <p class="update-info">Initiate over-the-air firmware update for connected devices</p>
+      <button onclick="triggerUpdate()">Trigger Update</button>
+      <div id="updateMessage" class="message"></div>
+      <button onclick="logout()" class="logout-btn">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    // Correct credentials
+    const CORRECT_USERNAME = "ahmedsakr";
+    const CORRECT_PASSWORD = "123";
+
+    function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const loginMessage = document.getElementById('loginMessage');
+
+      if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+        // Successful login
+        document.getElementById('loginForm').style.display = 'none';
+        document.getElementById('updateSection').style.display = 'block';
+        loginMessage.textContent = '';
+      } else {
+        // Failed login
+        loginMessage.textContent = 'Login failed: Incorrect username or password';
+        loginMessage.className = 'error';
+      }
+    }
+
+    function logout() {
+      document.getElementById('loginForm').style.display = 'block';
+      document.getElementById('updateSection').style.display = 'none';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('loginMessage').textContent = '';
+    }
+
+    function triggerUpdate() {
+      const updateMessage = document.getElementById('updateMessage');
+      updateMessage.textContent = 'Initiating firmware update...';
+      updateMessage.className = 'success';
+
+      fetch('http://localhost:1880/trigger-fota')
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then(data => {
+          updateMessage.textContent = `Success: ${data.status || 'Firmware update initiated'}`;
+          updateMessage.className = 'success';
+        })
+        .catch(err => {
+          updateMessage.textContent = `Error: ${err.message || 'Failed to trigger update'}`;
+          updateMessage.className = 'error';
+        });
+    }
+  </script>
+</body>
+</html>
