@@ -1,0 +1,147 @@
+[
+    {
+        "id": "8fcfca859784b134",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "dfa0d5f1dd54ae6c",
+        "type": "http in",
+        "z": "8fcfca859784b134",
+        "name": "",
+        "url": "/trigger-fota",
+        "method": "get",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 100,
+        "y": 260,
+        "wires": [
+            [
+                "e1eedf3a3fe59878",
+                "fe22e42ef9b1d242"
+            ]
+        ]
+    },
+    {
+        "id": "454156e1037018a1",
+        "type": "http response",
+        "z": "8fcfca859784b134",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 490,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e1eedf3a3fe59878",
+        "type": "debug",
+        "z": "8fcfca859784b134",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 180,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "884c826d96c0c654",
+        "type": "debug",
+        "z": "8fcfca859784b134",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "fe22e42ef9b1d242",
+        "type": "function",
+        "z": "8fcfca859784b134",
+        "name": "function 1",
+        "func": "let mqttMsg = {\n    payload: \"start\"\n};\n\n\n// Prepare HTTP response\nmsg.payload = { status: \"FOTA triggered\" };\nmsg.statusCode = 200;\n\nreturn [mqttMsg, msg];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 280,
+        "wires": [
+            [
+                "884c826d96c0c654",
+                "42f501e3669324c6"
+            ],
+            [
+                "454156e1037018a1"
+            ]
+        ]
+    },
+    {
+        "id": "42f501e3669324c6",
+        "type": "mqtt out",
+        "z": "8fcfca859784b134",
+        "name": "",
+        "topic": "firmware/update",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b4ae4d392042b420",
+        "x": 340,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "b4ae4d392042b420",
+        "type": "mqtt-broker",
+        "name": "brokerhivemq",
+        "broker": "broker.hivemq.com",
+        "port": 1883,
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": 4,
+        "keepalive": 60,
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    }
+]
